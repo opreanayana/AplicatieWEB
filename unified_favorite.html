@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="ro">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FAVORITE</title>
+
+<link href="shared-responsive.css" rel="stylesheet"/></head>
+<body>
+<div class="background-blur"></div>
+<header class="navbar">
+<nav class="navbar-menu">
+<a class="nav-link" href="dashboard.html">HOME</a>
+<a class="nav-link" href="tip-eveniment.html">TIP EVENIMENT</a>
+<a class="nav-link" href="locatie.html">LOCAȚIE</a>
+<a class="nav-link" href="decor.html">DECOR</a>
+<a class="nav-link" href="candy-bar.html">CANDY BAR</a>
+<a class="nav-link" href="favorite.html">FAVORITE</a>
+</nav>
+</header>
+<main style="padding: 40px; text-align: center; color: #a87b2d;">
+<h1 style="font-size: 32px; font-weight: bold;">FAVORITE</h1>
+<div class="favorites-container" id="favoritesContainer"></div>
+</main>
+<div class="contact-form">
+<h2>Completează datele tale</h2>
+<input id="email" placeholder="Adresa de email" required="" type="email"/>
+<input id="phone" placeholder="Număr de telefon" required="" type="tel"/>
+<button onclick="submitForm()">Trimite</button>
+<p id="thankYouMessage">Vei fi contactat cât de curând!</p>
+<button id="backButton" onclick="history.back()">Înapoi</button>
+</div>
+<script>
+    const container = document.getElementById("favoritesContainer");
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    function renderFavorites() {
+      container.innerHTML = "";
+      if (favorites.length === 0) {
+        container.innerHTML = '<p style="font-size: 18px;">Nu ai adăugat încă nimic la favorite.</p>';
+        return;
+      }
+      favorites.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "favorite-card";
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.name}"/>
+          <div class="details">
+            <h3>${item.name}</h3>
+            <p>${item.description || ''}</p>
+            <button class="remove-button" onclick="removeFavorite(${index})">Elimină de la Favorite</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function removeFavorite(index) {
+      favorites.splice(index, 1);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      renderFavorites();
+    }
+
+    function submitForm() {
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      if (email && phone) {
+        document.getElementById("thankYouMessage").style.display = "block";
+        document.getElementById("backButton").style.display = "inline-block";
+
+        // Golește favoritele din memorie și localStorage
+        favorites = [];
+        localStorage.removeItem("favorites");
+        renderFavorites();
+      } else {
+        alert("Te rugăm să completezi toate câmpurile.");
+      }
+    }
+
+    renderFavorites();
+  </script>
+</body>
+</html>

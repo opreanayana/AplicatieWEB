@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="ro">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Autentificare</title>
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI&amp;display=swap" rel="stylesheet"/>
+
+<link href="shared-responsive.css" rel="stylesheet"/></head>
+<body>
+<div class="background-blur"></div>
+<div class="form-container">
+<h1>Autentificare</h1>
+<form onsubmit="event.preventDefault(); loginUser();">
+<input id="loginEmail" placeholder="Email" required="" type="email"/>
+<input id="loginPassword" placeholder="Parolă" required="" type="password"/>
+<button type="submit">Log In</button>
+<div class="signup-link">
+        Nu ai cont? <a href="signin.html">Creează cont</a>
+</div>
+</form>
+<div class="alert-box" id="alertBox"></div>
+</div>
+<script>
+    function loginUser() {
+      const saved = JSON.parse(localStorage.getItem('user'));
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const alertBox = document.getElementById('alertBox');
+
+      if (saved && email === saved.email && password === saved.password) {
+        alertBox.innerText = 'Autentificare reușită!';
+        alertBox.style.display = 'block';
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 2000);
+      } else {
+        alertBox.innerText = 'Parolă sau email greșit!';
+        alertBox.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

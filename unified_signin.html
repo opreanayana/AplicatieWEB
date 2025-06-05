@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="ro">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Înregistrare</title>
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI&amp;display=swap" rel="stylesheet"/>
+
+<link href="shared-responsive.css" rel="stylesheet"/></head>
+<body>
+<div class="background-blur"></div>
+<div class="form-container">
+<h1>Creare cont</h1>
+<form onsubmit="event.preventDefault(); registerUser();">
+<input id="name" placeholder="Nume complet" required="" type="text"/>
+<input id="email" placeholder="Email" required="" type="email"/>
+<input id="password" placeholder="Parolă" required="" type="password"/>
+<button type="submit">Înregistrează-te</button>
+</form>
+</div>
+<div class="custom-alert" id="successMessage">Cont creat cu succes!</div>
+<script>
+    function registerUser() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      localStorage.setItem('user', JSON.stringify({ email, password }));
+
+      const msg = document.getElementById('successMessage');
+      msg.style.display = 'block';
+
+      setTimeout(() => {
+        msg.style.display = 'none';
+        window.location.href = 'login.html';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
